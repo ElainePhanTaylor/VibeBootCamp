@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Andreas Taylor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">◆</span>
+                <span class="logo-text">ANDREAS</span>
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="index.html#about" class="nav-link">About</a></li>
+                <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+                <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                <li><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <h1 class="dashboard-title">
+                <span class="title-decoration">───</span>
+                Your Daily Briefing
+                <span class="title-decoration">───</span>
+            </h1>
+            <p class="dashboard-location" id="user-location">
+                <span class="location-icon">📍</span>
+                <span id="location-text">Detecting your location...</span>
+            </p>
+            <div class="dashboard-meta">
+                <span class="last-updated" id="last-updated">Last updated: --</span>
+                <button class="btn btn-small refresh-btn" id="refresh-btn">
+                    <span class="refresh-icon">↻</span> Refresh
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Grid -->
+    <section class="dashboard-grid">
+        <div class="container">
+            <div class="widgets-grid">
+                
+                <!-- Weather Widget -->
+                <div class="widget widget-weather">
+                    <div class="widget-header">
+                        <span class="widget-icon">🌤️</span>
+                        <h3 class="widget-title">Weather</h3>
+                    </div>
+                    <div class="widget-content" id="weather-widget">
+                        <div class="widget-embed">
+                            <a class="weatherwidget-io" href="https://forecast7.com/en/37d77n122d42/san-francisco/" data-label_1="SAN FRANCISCO" data-label_2="WEATHER" data-theme="original" data-basecolor="#1a1a24" data-textcolor="#f8fafc" data-highcolor="#22d3ee" data-lowcolor="#6366f1" data-suncolor="#fbbf24" data-cloudfill="#64748b">Weather</a>
+                            <script>
+                            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+                            </script>
+                        </div>
+                        <p class="widget-note">Enter your city at weatherwidget.io to customize</p>
+                    </div>
+                </div>
+
+                <!-- Earthquakes Widget -->
+                <div class="widget widget-earthquakes">
+                    <div class="widget-header">
+                        <span class="widget-icon">🌍</span>
+                        <h3 class="widget-title">Recent Earthquakes</h3>
+                        <span class="widget-badge">4.0+ magnitude</span>
+                    </div>
+                    <div class="widget-content" id="earthquake-widget">
+                        <div class="widget-loading">
+                            <div class="loading-spinner"></div>
+                            <p>Loading earthquake data...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Space/ISS Widget -->
+                <div class="widget widget-space">
+                    <div class="widget-header">
+                        <span class="widget-icon">🚀</span>
+                        <h3 class="widget-title">Space</h3>
+                    </div>
+                    <div class="widget-content" id="space-widget">
+                        <div class="widget-loading">
+                            <div class="loading-spinner"></div>
+                            <p>Locating the ISS...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Air Quality Widget -->
+                <div class="widget widget-air">
+                    <div class="widget-header">
+                        <span class="widget-icon">💨</span>
+                        <h3 class="widget-title">Air Quality</h3>
+                    </div>
+                    <div class="widget-content" id="air-widget">
+                        <div class="widget-embed aqi-embed">
+                            <iframe src="https://aqicn.org/publisherplugin/san-francisco/us-california/san-francisco/widget/dark-full" 
+                                    width="100%" 
+                                    height="180" 
+                                    frameborder="0" 
+                                    scrolling="no"
+                                    style="border-radius: 8px;">
+                            </iframe>
+                        </div>
+                        <p class="widget-note">Data from World Air Quality Index</p>
+                    </div>
+                </div>
+
+                <!-- Traffic Widget -->
+                <div class="widget widget-traffic">
+                    <div class="widget-header">
+                        <span class="widget-icon">🚗</span>
+                        <h3 class="widget-title">Traffic</h3>
+                    </div>
+                    <div class="widget-content" id="traffic-widget">
+                        <div class="widget-embed traffic-embed">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d50470.06444570516!2d-122.43149385!3d37.77492945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1234567890&layer=traffic"
+                                width="100%" 
+                                height="200" 
+                                style="border:0; border-radius: 8px;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                        <p class="widget-note">Live traffic via Google Maps</p>
+                    </div>
+                </div>
+
+                <!-- Location Widget -->
+                <div class="widget widget-location">
+                    <div class="widget-header">
+                        <span class="widget-icon">🌐</span>
+                        <h3 class="widget-title">Your Connection</h3>
+                    </div>
+                    <div class="widget-content" id="location-widget">
+                        <div class="widget-loading">
+                            <div class="loading-spinner"></div>
+                            <p>Detecting connection info...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer dashboard-footer">
+        <div class="container">
+            <p class="footer-text">Data refreshes automatically every 10 minutes</p>
+            <p class="footer-subtext">
+                <a href="index.html">← Back to Portfolio</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
+

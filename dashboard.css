@@ -1,0 +1,412 @@
+/* ========================================
+   Dashboard Styles
+======================================== */
+
+/* Dashboard Header */
+.dashboard-header {
+    padding: 8rem 2rem 3rem;
+    text-align: center;
+    background: var(--bg-secondary);
+}
+
+.dashboard-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.dashboard-location {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.location-icon {
+    font-size: 1.25rem;
+}
+
+.dashboard-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.last-updated {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.refresh-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.refresh-icon {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.refresh-btn:hover .refresh-icon {
+    transform: rotate(180deg);
+}
+
+.refresh-btn.refreshing .refresh-icon {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    padding: 3rem 2rem 6rem;
+}
+
+.widgets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Widget Cards */
+.widget {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all var(--transition-medium);
+}
+
+.widget:hover {
+    border-color: var(--primary);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+}
+
+.widget-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.widget-icon {
+    font-size: 1.5rem;
+}
+
+.widget-title {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 600;
+    flex-grow: 1;
+}
+
+.widget-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(99, 102, 241, 0.2);
+    color: var(--primary-light);
+    border-radius: 50px;
+}
+
+.widget-content {
+    padding: 1.5rem;
+    min-height: 180px;
+}
+
+.widget-note {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* Widget Loading State */
+.widget-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    gap: 1rem;
+    color: var(--text-muted);
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Widget Embed Containers */
+.widget-embed {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.widget-embed iframe {
+    display: block;
+}
+
+/* Earthquake List Styles */
+.earthquake-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.earthquake-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.earthquake-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.earthquake-item:first-child {
+    padding-top: 0;
+}
+
+.earthquake-magnitude {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.magnitude-low {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+}
+
+.magnitude-medium {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+}
+
+.magnitude-high {
+    background: rgba(249, 115, 22, 0.2);
+    color: #f97316;
+}
+
+.magnitude-severe {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.earthquake-info {
+    flex-grow: 1;
+}
+
+.earthquake-location {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+}
+
+.earthquake-time {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.earthquake-empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 2rem 0;
+}
+
+/* Space Widget Styles */
+.space-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.iss-location {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.iss-icon {
+    font-size: 2.5rem;
+}
+
+.iss-details h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.iss-coords {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-family: monospace;
+}
+
+.astronaut-count {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 8px;
+}
+
+.astronaut-icon {
+    font-size: 2rem;
+}
+
+.astronaut-info h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+}
+
+.astronaut-number {
+    color: var(--accent);
+    font-size: 1.25rem;
+}
+
+.astronaut-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Location Widget Styles */
+.location-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.location-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.location-row:last-child {
+    border-bottom: none;
+}
+
+.location-label {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.location-value {
+    font-weight: 500;
+    color: var(--text-primary);
+    text-align: right;
+}
+
+.location-value.ip-address {
+    font-family: monospace;
+    color: var(--accent);
+}
+
+/* Error State */
+.widget-error {
+    text-align: center;
+    padding: 2rem;
+    color: var(--error);
+}
+
+.widget-error-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Dashboard Footer */
+.dashboard-footer {
+    background: var(--bg-secondary);
+}
+
+.dashboard-footer a {
+    color: var(--accent);
+    transition: color var(--transition-fast);
+}
+
+.dashboard-footer a:hover {
+    color: var(--primary-light);
+}
+
+/* Nav Active State */
+.nav-link.active {
+    color: var(--accent);
+}
+
+.nav-link.active::after {
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .widgets-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header {
+        padding: 7rem 1rem 2rem;
+    }
+
+    .dashboard-grid {
+        padding: 2rem 1rem 4rem;
+    }
+
+    .widget-content {
+        padding: 1rem;
+    }
+
+    .earthquake-item {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .earthquake-magnitude {
+        min-width: auto;
+        width: fit-content;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .widgets-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-meta {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
