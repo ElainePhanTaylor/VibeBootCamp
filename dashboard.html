@@ -38,10 +38,6 @@
                 Your Daily Briefing
                 <span class="title-decoration">───</span>
             </h1>
-            <p class="dashboard-location" id="user-location">
-                <span class="location-icon">📍</span>
-                <span id="location-text">Detecting your location...</span>
-            </p>
             <div class="dashboard-meta">
                 <span class="last-updated" id="last-updated">Last updated: --</span>
                 <button class="btn btn-small refresh-btn" id="refresh-btn">
@@ -88,40 +84,6 @@
                     </div>
                 </div>
 
-                <!-- Space/ISS Widget -->
-                <div class="widget widget-space">
-                    <div class="widget-header">
-                        <span class="widget-icon">🚀</span>
-                        <h3 class="widget-title">Space</h3>
-                    </div>
-                    <div class="widget-content" id="space-widget">
-                        <div class="widget-loading">
-                            <div class="loading-spinner"></div>
-                            <p>Locating the ISS...</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Air Quality Widget -->
-                <div class="widget widget-air">
-                    <div class="widget-header">
-                        <span class="widget-icon">💨</span>
-                        <h3 class="widget-title">Air Quality</h3>
-                    </div>
-                    <div class="widget-content" id="air-widget">
-                        <div class="widget-embed aqi-embed">
-                            <iframe src="https://aqicn.org/publisherplugin/san-francisco/us-california/san-francisco/widget/dark-full" 
-                                    width="100%" 
-                                    height="180" 
-                                    frameborder="0" 
-                                    scrolling="no"
-                                    style="border-radius: 8px;">
-                            </iframe>
-                        </div>
-                        <p class="widget-note">Data from World Air Quality Index</p>
-                    </div>
-                </div>
-
                 <!-- Traffic Widget -->
                 <div class="widget widget-traffic">
                     <div class="widget-header">
@@ -141,20 +103,6 @@
                             </iframe>
                         </div>
                         <p class="widget-note">Live traffic via Google Maps</p>
-                    </div>
-                </div>
-
-                <!-- Location Widget -->
-                <div class="widget widget-location">
-                    <div class="widget-header">
-                        <span class="widget-icon">🌐</span>
-                        <h3 class="widget-title">Your Connection</h3>
-                    </div>
-                    <div class="widget-content" id="location-widget">
-                        <div class="widget-loading">
-                            <div class="loading-spinner"></div>
-                            <p>Detecting connection info...</p>
-                        </div>
                     </div>
                 </div>
 
