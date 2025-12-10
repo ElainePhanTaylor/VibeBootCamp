@@ -71,113 +71,139 @@ function showError(element, message) {
 }
 
 // ========================================
-// IP/Location API - Multiple fallbacks
+// Location Detection - Browser Geolocation + Reverse Geocoding
 // ========================================
 async function fetchLocation() {
-    // Try multiple APIs in order until one works
-    const apis = [
+    
+    // Helper: Display location data
+    function displayLocation(data) {
+        elements.locationText.textContent = `${data.city}, ${data.region}, ${data.country}`;
+        
+        elements.locationWidget.innerHTML = `
+            <div class="location-info">
+                ${data.ip ? `
+                <div class="location-row">
+                    <span class="location-label">IP Address</span>
+                    <span class="location-value ip-address">${data.ip}</span>
+                </div>
+                ` : ''}
+                <div class="location-row">
+                    <span class="location-label">City</span>
+                    <span class="location-value">${data.city}</span>
+                </div>
+                <div class="location-row">
+                    <span class="location-label">Region</span>
+                    <span class="location-value">${data.region}</span>
+                </div>
+                <div class="location-row">
+                    <span class="location-label">Country</span>
+                    <span class="location-value">${data.country}</span>
+                </div>
+                ${data.postal ? `
+                <div class="location-row">
+                    <span class="location-label">ZIP Code</span>
+                    <span class="location-value">${data.postal}</span>
+                </div>
+                ` : ''}
+                ${data.lat && data.lon ? `
+                <div class="location-row">
+                    <span class="location-label">Coordinates</span>
+                    <span class="location-value">${data.lat.toFixed(4)}°, ${data.lon.toFixed(4)}°</span>
+                </div>
+                ` : ''}
+                <div class="location-row">
+                    <span class="location-label">Source</span>
+                    <span class="location-value" style="color: var(--accent);">${data.source}</span>
+                </div>
+            </div>
+        `;
+        return data;
+    }
+
+    // Method 1: Try Browser Geolocation API (most accurate)
+    if ('geolocation' in navigator) {
+        try {
+            const position = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject, {
+                    enableHighAccuracy: false,
+                    timeout: 10000,
+                    maximumAge: 300000 // Cache for 5 minutes
+                });
+            });
+            
+            const { latitude, longitude } = position.coords;
+            
+            // Reverse geocode using BigDataCloud (free, no key, CORS enabled)
+            const geoResponse = await fetch(
+                `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+            );
+            const geoData = await geoResponse.json();
+            
+            return displayLocation({
+                city: geoData.city || geoData.locality || 'Unknown',
+                region: geoData.principalSubdivision || geoData.localityInfo?.administrative?.[1]?.name || '',
+                country: geoData.countryName || '',
+                postal: geoData.postcode || '',
+                lat: latitude,
+                lon: longitude,
+                source: '📍 GPS Location'
+            });
+            
+        } catch (geoError) {
+            console.warn('Browser geolocation failed:', geoError.message);
+            // Fall through to IP-based method
+        }
+    }
+
+    // Method 2: IP-based location (fallback)
+    const ipApis = [
         {
             url: 'https://ipwho.is/',
-            parse: (data) => ({
-                ip: data.ip,
-                city: data.city,
-                region: data.region,
-                country: data.country,
-                postal: data.postal,
-                isp: data.connection?.isp || 'N/A',
-                lat: data.latitude,
-                lon: data.longitude,
-                success: data.success !== false
-            })
+            parse: (d) => ({ ip: d.ip, city: d.city, region: d.region, country: d.country, postal: d.postal, lat: d.latitude, lon: d.longitude, ok: d.success !== false })
         },
         {
             url: 'https://ipinfo.io/json',
-            parse: (data) => ({
-                ip: data.ip,
-                city: data.city,
-                region: data.region,
-                country: data.country,
-                postal: data.postal,
-                isp: data.org || 'N/A',
-                lat: data.loc ? parseFloat(data.loc.split(',')[0]) : null,
-                lon: data.loc ? parseFloat(data.loc.split(',')[1]) : null,
-                success: !data.error
-            })
+            parse: (d) => ({ ip: d.ip, city: d.city, region: d.region, country: d.country, postal: d.postal, lat: d.loc?.split(',')[0], lon: d.loc?.split(',')[1], ok: !d.error })
         },
         {
-            url: 'https://api.db-ip.com/v2/free/self',
-            parse: (data) => ({
-                ip: data.ipAddress,
-                city: data.city,
-                region: data.stateProv,
-                country: data.countryName,
-                postal: 'N/A',
-                isp: 'N/A',
-                lat: null,
-                lon: null,
-                success: !data.error
-            })
+            url: 'https://freeipapi.com/api/json',
+            parse: (d) => ({ ip: d.ipAddress, city: d.cityName, region: d.regionName, country: d.countryName, postal: d.zipCode, lat: d.latitude, lon: d.longitude, ok: true })
         }
     ];
 
-    for (const api of apis) {
+    for (const api of ipApis) {
         try {
             const response = await fetch(api.url);
-            const rawData = await response.json();
-            const data = api.parse(rawData);
+            const raw = await response.json();
+            const data = api.parse(raw);
             
-            if (data.success && data.city) {
-                // Update header location
-                elements.locationText.textContent = `${data.city}, ${data.region}, ${data.country}`;
-                
-                // Update location widget
-                elements.locationWidget.innerHTML = `
-                    <div class="location-info">
-                        <div class="location-row">
-                            <span class="location-label">IP Address</span>
-                            <span class="location-value ip-address">${data.ip}</span>
-                        </div>
-                        <div class="location-row">
-                            <span class="location-label">City</span>
-                            <span class="location-value">${data.city}</span>
-                        </div>
-                        <div class="location-row">
-                            <span class="location-label">Region</span>
-                            <span class="location-value">${data.region}</span>
-                        </div>
-                        <div class="location-row">
-                            <span class="location-label">Country</span>
-                            <span class="location-value">${data.country}</span>
-                        </div>
-                        <div class="location-row">
-                            <span class="location-label">ZIP Code</span>
-                            <span class="location-value">${data.postal || 'N/A'}</span>
-                        </div>
-                        <div class="location-row">
-                            <span class="location-label">ISP</span>
-                            <span class="location-value">${data.isp}</span>
-                        </div>
-                        ${data.lat && data.lon ? `
-                        <div class="location-row">
-                            <span class="location-label">Coordinates</span>
-                            <span class="location-value">${data.lat.toFixed(2)}°, ${data.lon.toFixed(2)}°</span>
-                        </div>
-                        ` : ''}
-                    </div>
-                `;
-                
-                return data;
+            if (data.ok && data.city) {
+                return displayLocation({
+                    ...data,
+                    lat: parseFloat(data.lat) || null,
+                    lon: parseFloat(data.lon) || null,
+                    source: '🌐 IP Address'
+                });
             }
-        } catch (error) {
-            console.warn(`API ${api.url} failed:`, error);
-            continue; // Try next API
+        } catch (e) {
+            console.warn(`IP API failed: ${api.url}`, e);
         }
     }
     
-    // All APIs failed
-    console.error('All location APIs failed');
-    elements.locationText.textContent = 'Location unavailable';
-    showError(elements.locationWidget, 'Unable to detect your location. Try refreshing.');
+    // All methods failed - show manual fallback
+    elements.locationText.textContent = 'Click to allow location';
+    elements.locationWidget.innerHTML = `
+        <div class="widget-error" style="color: var(--text-secondary);">
+            <div class="widget-error-icon">📍</div>
+            <p>Location access needed</p>
+            <button class="btn btn-small" onclick="location.reload()" style="margin-top: 1rem;">
+                Allow Location
+            </button>
+            <p style="font-size: 0.75rem; margin-top: 0.5rem; color: var(--text-muted);">
+                Click the button and allow location access when prompted
+            </p>
+        </div>
+    `;
     return null;
 }
 
