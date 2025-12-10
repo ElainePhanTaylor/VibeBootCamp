@@ -297,12 +297,25 @@ button {
     position: relative;
     overflow: hidden;
     padding: 6rem 2rem 2rem;
+    background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 0;
 }
 
 .hero-bg {
     position: absolute;
     inset: 0;
     overflow: hidden;
+    z-index: 1;
 }
 
 .hero-shape {
@@ -353,7 +366,7 @@ button {
 
 .hero-content {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     text-align: center;
     max-width: 800px;
 }
@@ -375,6 +388,7 @@ button {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.5));
 }
 
 .hero-tagline {
@@ -390,6 +404,7 @@ button {
     transform: translateX(-50%);
     display: flex;
     gap: 0.5rem;
+    z-index: 2;
 }
 
 .scroll-dot {
